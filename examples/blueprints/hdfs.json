@@ -1,0 +1,19 @@
+{
+ "Blueprints": {
+      "blueprint_name": "hdfs",
+      "stack_name": "HDP",
+      "stack_version": "2.6"
+ },
+ "host_groups": [{
+ "name": "host_group_2",
+ "components": [{
+ "name": "NAMENODE"},
+ {"name": "SECONDARY_NAMENODE"},
+ {"name": "HDFS_CLIENT"
+ }]},
+ {"name": "host_group_1",
+ "components": [{
+ "name": "DATANODE"
+ }]}
+ ]
+}

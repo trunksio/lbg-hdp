@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-cd ~/
-wget https://raw.githubusercontent.com/apache/ambari/release-2.6.1/ambari-server/src/main/resources/Ambari-DDL-Postgres-CREATE.sql
-sed -i "s/\${ambariSchemaVersion}/2.6.1/g" Ambari-DDL-Postgres-CREATE.sql
+cd /docker-entrypoint-initdb.d/ 
+#wget https://raw.githubusercontent.com/apache/ambari/release-2.6.1/ambari-server/src/main/resources/Ambari-DDL-Postgres-CREATE.sql
+#sed -i "s/\${ambariSchemaVersion}/2.6.1/g" Ambari-DDL-Postgres-CREATE.sql
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     create database ambari;
