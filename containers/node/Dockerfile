@@ -27,6 +27,6 @@ RUN yum install -y smartsense*
 RUN yum install -y druid*
 RUN yum install -y superset*
 RUN yum install -y lzo snappy-devel rpcbind
-RUN mv /etc/yum.repos.d/hdp.repo ambari-hdp-1.repo
+ADD scripts/ambari-hdp-1.repo /etc/yum.repos.d/
 ADD scripts/start.sh /start.sh
 CMD /start.sh
