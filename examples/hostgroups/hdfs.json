@@ -4,17 +4,17 @@
   {
     "hive-site" : {
       "properties" : {
-        "javax.jdo.option.ConnectionURL" : "jdbc:postgresql://postgres.dev"
+        "javax.jdo.option.ConnectionURL" : "jdbc:postgresql://postgres.lbg.dev"
       }
     }
   }
 ],
 "host_groups":[
   { "name":"host_group_1",
-    "hosts":[ { "fqdn":"dn0.dev" },{ "fqdn":"dn1.dev" },{ "fqdn":"dn2.dev" } ]
+    "hosts":[ { "fqdn":"dn0.lbg.dev" },{ "fqdn":"dn1.lbg.dev" },{ "fqdn":"dn2.lbg.dev" } ]
   },
   { "name":"host_group_2",
-    "hosts":[ { "fqdn":"master0.dev" } ]
+    "hosts":[ { "fqdn":"master0.lbg.dev" } ]
   }
 ]
 }

@@ -1,6 +1,6 @@
 version: '3'
 services:
-  postgres.dev:
+  postgres.lbg.dev:
     build:
      context: ../../containers/postgres
      args:
@@ -9,8 +9,8 @@ services:
     networks:
      - dev
     hostname: postgres
-    domainname: dev
-  ambari-server.dev:
+    domainname: lbg.dev
+  ambari-server.lbg.dev:
     build: 
       context: ../../containers/ambari-server
       args:
@@ -19,10 +19,10 @@ services:
     networks:
      - dev
     hostname: ambari-server
-    domainname: dev
+    domainname: lbg.dev
     ports:
      - "8080:8080"
-  master0.dev:
+  master0.lbg.dev:
     build:
       context: ../../containers/node
       args:
@@ -33,7 +33,7 @@ services:
     networks:
      - dev
     hostname: master0
-    domainname: dev
+    domainname: lbg.dev
     ports:
      # ZooKeeper
      - "2181:2181"
@@ -41,6 +41,7 @@ services:
      - "8020:8020"
      - "9000:9000"
      - "50090:50090"
+     - "50070:50070"
      # YARN
      - "8088:8088"
      - "8050:8050"
@@ -78,8 +79,8 @@ services:
      # Zeppelin
      - "9995:9995"
      # Kerberos
-     #- "88:88"
-  dn0.dev:
+     - "88"
+  dn0.lbg.dev:
     build:
       context: ../../containers/node
       args:
@@ -90,7 +91,7 @@ services:
     networks:
      - dev
     hostname: dn0
-    domainname: dev
+    domainname: lbg.dev
     ports:
      # HDFS
      - "50070"
@@ -110,7 +111,7 @@ services:
      - "8983"
      # Kafka
      - "6667"
-  dn1.dev:
+  dn1.lbg.dev:
     build:
       context: ../../containers/node
       args:
@@ -121,7 +122,7 @@ services:
     networks:
      - dev
     hostname: dn1
-    domainname: dev
+    domainname: lbg.dev
     ports:
      # HDFS
      - "50070"
@@ -141,7 +142,7 @@ services:
      - "8983"
      # Kafka
      - "6667"
-  dn2.dev:
+  dn2.lbg.dev:
     build:
       context: ../../containers/node
       args:
@@ -152,7 +153,7 @@ services:
     networks:
      - dev
     hostname: dn2
-    domainname: dev
+    domainname: lbg.dev
     ports:
      # HDFS
      - "50070"
@@ -172,7 +173,26 @@ services:
      - "8983"
      # Kafka
      - "6667"
-
+  kdc.lbg.dev:
+    build:
+     context: ../../containers/kdc
+    image: krb5-server
+    networks:
+     - dev
+    hostname: kdc 
+    domainname: lbg.dev
+    ports:
+     - "88:88"
+     - "464:464"
+     - "749:749"
+    environment:
+      KRB5_REALM: LBG.DEV 
+      KRB5_KDC: kdc.lbg.dev
+      KRB5_PASS: 123ABCabc456
+    volumes:
+     - krb5kdc-data:/var/lib/krb5kdc
 networks:
   dev:
     driver: bridge
+volumes:
+    krb5kdc-data:

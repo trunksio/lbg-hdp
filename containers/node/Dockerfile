@@ -28,5 +28,6 @@ RUN yum install -y druid*
 RUN yum install -y superset*
 RUN yum install -y lzo snappy-devel rpcbind
 ADD scripts/ambari-hdp-1.repo /etc/yum.repos.d/
+
 ADD scripts/start.sh /start.sh
 CMD /start.sh

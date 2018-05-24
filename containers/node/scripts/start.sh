@@ -1,5 +1,5 @@
 #!/bin/bash
-sed -i "s/hostname=localhost/hostname=ambari-server.dev/" /etc/ambari-agent/conf/ambari-agent.ini
+sed -i "s/hostname=localhost/hostname=ambari-server.lbg.dev/" /etc/ambari-agent/conf/ambari-agent.ini
 ambari-agent start
 
 while true; do
