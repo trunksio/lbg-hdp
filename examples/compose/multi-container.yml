@@ -186,7 +186,7 @@ services:
      - "464:464"
      - "749:749"
     environment:
-      KRB5_REALM: LBG.DEV 
+      KRB5_REALM: LBG.DEV
       KRB5_KDC: kdc.lbg.dev
       KRB5_PASS: 123ABCabc456
     volumes:
