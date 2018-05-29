@@ -35,8 +35,6 @@ services:
     hostname: master0
     domainname: lbg.dev
     ports:
-     # ZooKeeper
-     - "2181:2181"
      # HDFS
      - "8020:8020"
      - "9000:9000"
@@ -80,6 +78,8 @@ services:
      - "9995:9995"
      # Kerberos
      - "88"
+     # Zookeeper
+     - "2181:2181"
   dn0.lbg.dev:
     build:
       context: ../../containers/node
@@ -111,6 +111,10 @@ services:
      - "8983"
      # Kafka
      - "6667"
+     # Zookeeper
+     - "2181"
+     - "2888"
+     - "3888"
   dn1.lbg.dev:
     build:
       context: ../../containers/node
@@ -142,6 +146,10 @@ services:
      - "8983"
      # Kafka
      - "6667"
+     # Zookeeper
+     - "2181"
+     - "2888"
+     - "3888"
   dn2.lbg.dev:
     build:
       context: ../../containers/node
@@ -173,6 +181,10 @@ services:
      - "8983"
      # Kafka
      - "6667"
+     # Zookeeper
+     - "2181"
+     - "2888"
+     - "3888"
   kdc.lbg.dev:
     build:
      context: ../../containers/kdc
