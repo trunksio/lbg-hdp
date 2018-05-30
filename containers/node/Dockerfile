@@ -1,6 +1,10 @@
 FROM centos:6
-ARG AMBARI_REPO_URL
-ARG HDP_REPO_URL
+
+ARG AMBARI_REPO_URL='http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo'
+ARG HDP_REPO_URL='http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo'
+ENV AMBARI_REPO_URL $AMBARI_REPO_URL
+ENV HDP_REPO_URL $HDP_REPO_URL
+
 RUN yum install -y sudo wget openssl-devel postgresql-jdbc mysql-connector-java unzip
 RUN wget -nv ${AMBARI_REPO_URL} -O /etc/yum.repos.d/ambari.repo
 RUN wget -nv ${HDP_REPO_URL} -O /etc/yum.repos.d/hdp.repo
