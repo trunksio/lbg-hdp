@@ -1,6 +1,8 @@
-node {
+pipeline {
     def ambari
     def node
+
+    agent any
 
     stages {
         stage('Clone repository') {
