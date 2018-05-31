@@ -1,18 +1,17 @@
+    
+def ambari
+def node
+
 pipeline {
     agent any
 
     stages {
-    
-        def ambari
-        def node
-
         stage('Clone repository') {
             steps {
                 /* Let's make sure we have the repository cloned to our workspace */
                 checkout scm
             }
         }
-
         stage('Build Images') {
             parallel{
                 stage('Build Ambari Image') {
