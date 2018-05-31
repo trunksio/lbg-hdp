@@ -19,8 +19,10 @@ pipeline {
                         withEnv(["AMBARI_DDL_URL=https://raw.githubusercontent.com/apache/ambari/release-2.6.1/ambari-server/src/main/resources/Ambari-DDL-Postgres-CREATE.sql",
                                 "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
                                 "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
-                                
-                            ambari = docker.build("ambari-server", "./containers/ambari-server")
+                            
+                            script {
+                                ambari = docker.build("ambari-server", "./containers/ambari-server")
+                            }
                         }
                     }
                 }
@@ -29,8 +31,10 @@ pipeline {
                         withEnv(["AMBARI_DDL_URL=https://raw.githubusercontent.com/apache/ambari/release-2.6.1/ambari-server/src/main/resources/Ambari-DDL-Postgres-CREATE.sql",
                                 "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
                                 "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
-                                
-                            node = docker.build("node", "./containers/node")
+
+                            script {    
+                                node = docker.build("node", "./containers/node")
+                            }
                         }
                     }
                 }
@@ -40,15 +44,19 @@ pipeline {
             parallel{
                 stage('Test Ambari Image') {
                     steps {
-                        ambari.inside {
-                            sh 'echo "Do some stuff"'
+                        script {
+                            ambari.inside {
+                                sh 'echo "Do some stuff"'
+                            }
                         }
                     }
                 }
                 stage('Test Node Image') {
                     steps {
-                        node.inside {
-                            sh 'echo "Do some stuff"'
+                        script {
+                            node.inside {
+                                sh 'echo "Do some stuff"'
+                            }
                         }
                     }
                 }
@@ -58,22 +66,28 @@ pipeline {
             parallel{
                 stage('Test Ambari Image') {
                     steps {
-                        docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
-                            ambari.push("latest")
+                        script {
+                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                ambari.push("latest")
+                            }
                         }
                     }
                 }
                 stage('Push Worker Image') {
                     steps {
-                        docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
-                            node.push("master")
+                        script {
+                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                node.push("worker")
+                            }
                         }
                     }
                 }
                 stage('Test Master Image') {
                     steps {
-                        docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
-                            node.push("master")
+                        script {
+                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                node.push("master")
+                            }
                         }
                     }
                 }
