@@ -15,7 +15,9 @@ node {
                         "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
                         "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
                         
-                        ambari = docker.build("ambari-server", "./containers/ambari-server")
+                        docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                            ambari = docker.build("ambari-server", "./containers/ambari-server")
+                        }
                     }
                 },
                 "build node image": {
@@ -23,7 +25,9 @@ node {
                         "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
                         "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
                         
-                        node = docker.build("node", "./containers/node")
+                        docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                            node = docker.build("node", "./containers/node")
+                        }
                     }
                 }
             )
