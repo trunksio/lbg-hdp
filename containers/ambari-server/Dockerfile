@@ -1,5 +1,8 @@
 FROM centos:6
-ARG AMBARI_REPO_URL
+
+ARG AMBARI_REPO_URL='http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo'
+ENV AMBARI_REPO_URL $AMBARI_REPO_URL
+
 RUN yum install -y wget sudo net-tools
 RUN wget -nv ${AMBARI_REPO_URL} -O /etc/yum.repos.d/ambari.repo
 RUN yum install -y ambari-server postgresql-jdbc
