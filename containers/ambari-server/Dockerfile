@@ -13,4 +13,5 @@ RUN yum install -y ambari-agent
 RUN yum install -y ambari-metrics-*
 ADD scripts/start.sh /start.sh
 ADD scripts/HDP-2.6.4.0-91.xml /tmp
+ADD scripts/krb5.conf /etc/krb5.conf
 CMD /start.sh

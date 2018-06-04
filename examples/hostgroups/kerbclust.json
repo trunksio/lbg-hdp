@@ -1,0 +1,31 @@
+{ "blueprint":"kerbclust",
+"default_password" : "dev",
+"credentials" : [
+  {
+    "alias" : "kdc.admin.credential",
+    "principal" : "admin/admin@LBG.DEV",
+    "key" : "123ABCabc456",
+    "type" : "TEMPORARY"
+  }
+],
+"security" : {
+  "type" : "KERBEROS"
+},
+"configurations" : [
+  {
+    "hive-site" : {
+      "properties" : {
+        "javax.jdo.option.ConnectionURL" : "jdbc:postgresql://postgres.lbg.dev"
+      }
+    }
+  }
+],
+"host_groups":[
+  { "name":"host_group_1",
+    "hosts":[ { "fqdn":"dn0.lbg.dev" },{ "fqdn":"dn1.lbg.dev" },{ "fqdn":"dn2.lbg.dev" } ]
+  },
+  { "name":"host_group_2",
+    "hosts":[ { "fqdn":"master0.lbg.dev" }] 
+  }
+]
+}

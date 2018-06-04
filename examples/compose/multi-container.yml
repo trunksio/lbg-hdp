@@ -80,6 +80,8 @@ services:
      - "88"
      # Zookeeper
      - "2181:2181"
+    volumes:
+     - master0-data:/hadoop
   dn0.lbg.dev:
     build:
       context: ../../containers/node
@@ -115,6 +117,8 @@ services:
      - "2181"
      - "2888"
      - "3888"
+    volumes:
+     - dn0-data:/hadoop
   dn1.lbg.dev:
     build:
       context: ../../containers/node
@@ -150,6 +154,8 @@ services:
      - "2181"
      - "2888"
      - "3888"
+    volumes:
+     - dn1-data:/hadoop
   dn2.lbg.dev:
     build:
       context: ../../containers/node
@@ -185,6 +191,8 @@ services:
      - "2181"
      - "2888"
      - "3888"
+    volumes:
+     - dn2-data:/hadoop
   kdc.lbg.dev:
     build:
      context: ../../containers/kdc
@@ -208,3 +216,7 @@ networks:
     driver: bridge
 volumes:
     krb5kdc-data:
+    master0-data:
+    dn0-data:
+    dn1-data:
+    dn2-data:

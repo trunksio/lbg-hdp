@@ -64,7 +64,7 @@ pipeline {
         }
         stage('Push Images') {
             parallel{
-                stage('Test Ambari Image') {
+                stage('Push Ambari Image') {
                     steps {
                         script {
                             docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
@@ -82,7 +82,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Test Master Image') {
+                stage('Push Master Image') {
                     steps {
                         script {
                             docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {

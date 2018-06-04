@@ -1,0 +1,54 @@
+{
+ "Blueprints": {
+      "blueprint_name": "kerbclust",
+      "stack_name": "HDP",
+      "stack_version": "2.6",
+      "security" : {
+        "type" : "KERBEROS"
+      }
+ },
+ "configurations": [
+    {
+      "kerberos-env": {
+        "properties_attributes" : { },
+        "properties" : {
+          "realm" : "LBG.DEV",
+          "kdc_type" : "mit-kdc",
+          "kdc_host" : "kdc.lbg.dev",
+          "admin_server_host" : "kdc.lbg.dev"
+        }
+      }
+    },
+    {
+      "krb5-conf": {
+        "properties_attributes" : { },
+        "properties" : {
+          "domains" : "lbg.dev,.lbg.dev",
+          "manage_krb5_conf" : "false"
+        }
+      }
+    }],
+
+ "host_groups": [{
+ "name": "host_group_2",
+ "components": [
+ {"name": "NAMENODE"},
+ {"name": "SECONDARY_NAMENODE"},
+ {"name": "RESOURCEMANAGER"},
+ {"name": "HISTORYSERVER"},
+ {"name": "SPARK2_JOBHISTORYSERVER"},
+ {"name": "APP_TIMELINE_SERVER"},
+ {"name": "YARN_CLIENT"},
+ {"name": "MAPREDUCE2_CLIENT"},
+ {"name": "SPARK2_CLIENT"},
+ {"name": "ZOOKEEPER_CLIENT"},
+ {"name": "HDFS_CLIENT"
+ }]},
+ {"name": "host_group_1",
+ "components": [
+ {"name": "DATANODE"},
+ {"name": "ZOOKEEPER_SERVER"},
+ {"name": "NODEMANAGER"}
+ ]}
+ ]
+}
