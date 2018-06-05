@@ -57,17 +57,11 @@ pipeline {
             parallel{
                 stage('Test Ambari Image') {
                     steps {
-                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '<CREDENTIAL_ID>',
-                                        usernameVariable: 'USERNAME', passwordVariable: 'TOKEN']]) {
-                            script {
-                                ambari.inside {
-                                    curl "https://get.aquasec.com/microscanner" -O /
-                                    sh chmod +x /microscanner
-                                    /microscanner <TOKEN>
-                                }
-                            }   
-                        } 
-
+                        script {
+                            ambari.inside {
+                                sh 'echo "Do some stuff"'
+                            }
+                        }
                     }
                 }
                 stage('Test Node Image') {
