@@ -95,15 +95,15 @@ pipeline {
                         }
                     }
                 }
-                stage('Test kdc Image') {
-                    steps {
-                        script {
-                            kerberos.inside {
-                                sh 'echo "Do some stuff"'
-                            }
-                        }
-                    }
-                }
+                // stage('Test kdc Image') {
+                //     steps {
+                //         script {
+                //             kerberos.inside {
+                //                 sh 'echo "Do some stuff"'
+                //             }
+                //         }
+                //     }
+                // }
             }
         }
         stage('Push Images') {
