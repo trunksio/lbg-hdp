@@ -8,3 +8,4 @@ RUN chmod -R 755 /docker-entrypoint-initdb.d/
 RUN mkdir /home/postgres
 RUN chown postgres /pg_hba.conf /home/postgres
 RUN chown postgres /var/lib/postgresql/data
+RUN touch /tmp/test
