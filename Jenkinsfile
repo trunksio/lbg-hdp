@@ -1,6 +1,8 @@
     
 def ambari
 def node
+def postgres
+def kerberos
 
 pipeline {
     agent any
@@ -38,6 +40,30 @@ pipeline {
                         }
                     }
                 }
+                stage('Build Postgres Image') {
+                    steps {
+                        withEnv(["AMBARI_DDL_URL=https://raw.githubusercontent.com/apache/ambari/release-2.6.1/ambari-server/src/main/resources/Ambari-DDL-Postgres-CREATE.sql",
+                                "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
+                                "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
+
+                            script {    
+                                postgres = docker.build("postgres", "./containers/postgres")
+                            }
+                        }
+                    }
+                }
+                stage('Build kdc Image') {
+                    steps {
+                        withEnv(["AMBARI_DDL_URL=https://raw.githubusercontent.com/apache/ambari/release-2.6.1/ambari-server/src/main/resources/Ambari-DDL-Postgres-CREATE.sql",
+                                "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
+                                "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
+
+                            script {    
+                                kerberos = docker.build("kdc", "./containers/kdc")
+                            }
+                        }
+                    }
+                }
             }
         }
         stage('Test Images') {
@@ -60,6 +86,24 @@ pipeline {
                         }
                     }
                 }
+                stage('Test Postgres Image') {
+                    steps {
+                        script {
+                            postgres.inside {
+                                sh 'echo "Do some stuff"'
+                            }
+                        }
+                    }
+                }
+                // stage('Test kdc Image') {
+                //     steps {
+                //         script {
+                //             kerberos.inside {
+                //                 sh 'echo "Do some stuff"'
+                //             }
+                //         }
+                //     }
+                // }
             }
         }
         stage('Push Images') {
@@ -87,6 +131,24 @@ pipeline {
                         script {
                             docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
                                 node.push("master")
+                            }
+                        }
+                    }
+                }
+                stage('Push Postgres Image') {
+                    steps {
+                        script {
+                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                postgres.push("latest")
+                            }
+                        }
+                    }
+                }
+                stage('Push kdc Image') {
+                    steps {
+                        script {
+                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                kerberos.push("latest")
                             }
                         }
                     }
