@@ -8,30 +8,11 @@ ENV HDP_REPO_URL $HDP_REPO_URL
 RUN yum install -y sudo wget openssl-devel postgresql-jdbc mysql-connector-java unzip
 RUN wget -nv ${AMBARI_REPO_URL} -O /etc/yum.repos.d/ambari.repo
 RUN wget -nv ${HDP_REPO_URL} -O /etc/yum.repos.d/hdp.repo
-# Uncomment if you want to run kerberos in container
-RUN yum install -y krb5-server krb5-libs krb5-workstation
-RUN yum install -y ambari-agent
-RUN yum install -y ambari-metrics-*
-RUN yum install -y ambari-logsearch-*
-RUN yum install -y hadoop*
-RUN yum install -y zookeeper*
-RUN yum install -y hive*
-RUN yum install -y phoenix_*
-RUN yum install -y ranger*
-RUN yum install -y storm_*
-RUN yum install -y kafka_*
-RUN yum install -y pig_*
-RUN yum install -y datafu_*
-RUN yum install -y spark* livy*
-RUN yum install -y zeppelin*
-RUN yum install -y falcon_*
-RUN yum install -y oozie_*
-#RUN yum install -y lucidworks-hdpsearch
-RUN yum install -y smartsense*
-RUN yum install -y druid*
-RUN yum install -y superset*
-RUN yum install -y lzo snappy-devel rpcbind
+RUN yum install -y krb5-server krb5-libs krb5-workstation ambari-agent ambari-metrics-* ambari-logsearch-* hadoop* zookeeper* hive* phoenix_* ranger* storm_* kafka_* pig_* datafu_* spark* livy* zeppelin* falcon_* oozie_* smartsense* druid* superset* lzo snappy-devel rpcbind ambari-server
 ADD scripts/ambari-hdp-1.repo /etc/yum.repos.d/
 ADD scripts/krb5.conf /etc/
 ADD scripts/start.sh /start.sh
-CMD /start.sh
+RUN ambari-server setup --database=postgres --databasehost=postgres.lbg.dev --databaseport=5432 --databasename=ambari --postgresschema=ambari  --databaseusername=ambari --databasepassword=dev --silent
+RUN ambari-server setup --jdbc-db postgres --jdbc-driver=/usr/share/java/postgresql-jdbc.jar
+ADD scripts/serverstart.sh /serverstart.sh
+ADD scripts/HDP-2.6.4.0-91.xml /tmp

@@ -12,7 +12,7 @@ services:
     domainname: lbg.dev
   ambari-server.lbg.dev:
     build: 
-      context: ../../containers/ambari-server
+      context: ../../containers/node
       args:
        - AMBARI_REPO_URL=${AMBARI_REPO_URL}
     image: hdp/ambari-server
@@ -22,6 +22,7 @@ services:
     domainname: lbg.dev
     ports:
      - "8080:8080"
+    command: /serverstart.sh
   master0.lbg.dev:
     build:
       context: ../../containers/node
@@ -82,6 +83,8 @@ services:
      - "2181:2181"
     volumes:
      - master0-data:/hadoop
+     - /media/sf_lewis/workspace/docker-hdp:/data
+    command: /start.sh
   dn0.lbg.dev:
     build:
       context: ../../containers/node
@@ -113,12 +116,14 @@ services:
      - "8983"
      # Kafka
      - "6667"
+     - "9092"
      # Zookeeper
      - "2181"
      - "2888"
      - "3888"
     volumes:
      - dn0-data:/hadoop
+    command: /start.sh
   dn1.lbg.dev:
     build:
       context: ../../containers/node
@@ -150,12 +155,14 @@ services:
      - "8983"
      # Kafka
      - "6667"
+     - "9092"
      # Zookeeper
      - "2181"
      - "2888"
      - "3888"
     volumes:
      - dn1-data:/hadoop
+    command: /start.sh
   dn2.lbg.dev:
     build:
       context: ../../containers/node
@@ -187,12 +194,14 @@ services:
      - "8983"
      # Kafka
      - "6667"
+     - "9092"
      # Zookeeper
      - "2181"
      - "2888"
      - "3888"
     volumes:
      - dn2-data:/hadoop
+    command: /start.sh
   kdc.lbg.dev:
     build:
      context: ../../containers/kdc

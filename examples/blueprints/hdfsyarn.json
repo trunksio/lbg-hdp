@@ -23,6 +23,7 @@
  "components": [
  {"name": "DATANODE"},
  {"name": "ZOOKEEPER_SERVER"},
+ {"name": "KAFKA_BROKER"},
  {"name": "NODEMANAGER"}
  ]}
  ]

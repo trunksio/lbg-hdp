@@ -18,13 +18,36 @@
         "javax.jdo.option.ConnectionURL" : "jdbc:postgresql://postgres.lbg.dev"
       }
     }
-  }
-],
+  },
+    {
+      "kerberos-env": {
+        "properties_attributes" : { },
+        "properties" : {
+          "realm" : "LBG.DEV",
+          "kdc_type" : "mit-kdc",
+          "kdc_hosts" : "kdc.lbg.dev",
+          "admin_server_host" : "kdc.lbg.dev"
+        }
+      }
+    },
+    {
+      "krb5-conf": {
+        "properties_attributes" : { },
+        "properties" : {
+          "domains" : "LBG.DEV",
+          "manage_krb5_conf" : "true"
+        }
+      }
+    }
+  ],
 "host_groups":[
   { "name":"host_group_1",
-    "hosts":[ { "fqdn":"dn0.lbg.dev" },{ "fqdn":"dn1.lbg.dev" },{ "fqdn":"dn2.lbg.dev" } ]
+    "hosts":[ { "fqdn":"ambari-server.lbg.dev" }]
   },
   { "name":"host_group_2",
+    "hosts":[ { "fqdn":"dn0.lbg.dev" },{ "fqdn":"dn1.lbg.dev" },{ "fqdn":"dn2.lbg.dev" } ]
+  },
+  { "name":"host_group_3",
     "hosts":[ { "fqdn":"master0.lbg.dev" }] 
   }
 ]
