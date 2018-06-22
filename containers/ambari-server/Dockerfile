@@ -12,6 +12,8 @@ ENV HTTPS_PROXY=$HTTPS_PROXY
 ARG NO_PROXY=''
 ENV NO_PROXY=$NO_PROXY
 
+RUN ping mirrorlist.centos.org && curl -v 'http://mirrorlist.centos.org/?release=6&arch=x86_64&repo=os&infra=container'
+
 RUN yum install -y wget sudo net-tools
 RUN wget -nv ${AMBARI_REPO_URL} -O /etc/yum.repos.d/ambari.repo
 RUN yum install -y ambari-server postgresql-jdbc
