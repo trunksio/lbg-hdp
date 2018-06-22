@@ -110,46 +110,62 @@ pipeline {
             parallel{
                 stage('Push Ambari Image') {
                     steps {
-                        script {
-                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
-                                ambari.push("latest")
+                        withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
+                                script {
+                                    docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                    ambari.push("latest")
+                                }
                             }
-                        }
+                        } 
                     }
                 }
                 stage('Push Worker Image') {
                     steps {
-                        script {
-                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
-                                node.push("worker")
+                        withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
+                                script {
+                                    docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                    node.push("worker")
+                                }
                             }
-                        }
+                        } 
                     }
                 }
                 stage('Push Master Image') {
                     steps {
                         script {
-                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
-                                node.push("master")
-                            }
+                            withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
+                                    script {
+                                        docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                        node.push("master")
+                                    }
+                                }
+                            } 
                         }
                     }
                 }
                 stage('Push Postgres Image') {
                     steps {
                         script {
-                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
-                                postgres.push("latest")
-                            }
+                            withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
+                                    script {
+                                        docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                        postgres.push("latest")
+                                    }
+                                }
+                            } 
                         }
                     }
                 }
                 stage('Push kdc Image') {
                     steps {
                         script {
-                            docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
-                                kerberos.push("latest")
-                            }
+                            withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
+                                    script {
+                                        docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                                        kerberos.push("latest")
+                                    }
+                                }
+                            } 
                         }
                     }
                 }
