@@ -14,7 +14,8 @@ ENV https_proxy=$HTTPS_PROXY
 ARG NO_PROXY=''
 ENV NO_PROXY=$NO_PROXY
 
-RUN curl -v 'http://mirrorlist.centos.org/?release=6&arch=x86_64&repo=os&infra=container'
+# force the use of a whitelisted centos mirror.
+COPY ../common-files/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 
 RUN yum install -y wget sudo net-tools
 RUN wget -nv ${AMBARI_REPO_URL} -O /etc/yum.repos.d/ambari.repo
