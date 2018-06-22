@@ -14,7 +14,7 @@ pipeline {
                                                         "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
                                                         "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
               script {
-                ambari = docker.build("ambari-server", "--build-arg HTTP_PROXY=\"$HTTP_PROXY\" --build-arg HTTPS_PROXY=\"$HTTPS_PROXY\" --build-arg NO_PROXY=\"$NO_PROXY\" ./containers/ambari-server")
+                ambari = docker.build("ambari-server", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/ambari-server")
               }
 
             }
@@ -27,7 +27,7 @@ pipeline {
                                                         "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
                                                         "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
               script {
-                node = docker.build("node", "--build-arg HTTP_PROXY=\"$HTTP_PROXY\" --build-arg HTTPS_PROXY=\"$HTTPS_PROXY\" --build-arg NO_PROXY=\"$NO_PROXY\" ./containers/node")
+                node = docker.build("node", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/node")
               }
 
             }
@@ -40,7 +40,7 @@ pipeline {
                                                         "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
                                                         "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
               script {
-                postgres = docker.build("postgres", "--build-arg HTTP_PROXY=\"$HTTP_PROXY\" --build-arg HTTPS_PROXY=\"$HTTPS_PROXY\" --build-arg NO_PROXY=\"$NO_PROXY\" ./containers/postgres")
+                postgres = docker.build("postgres", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/postgres")
               }
 
             }
@@ -53,7 +53,7 @@ pipeline {
                                                         "AMBARI_REPO_URL=http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.6.1.0/ambari.repo",
                                                         "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
               script {
-                kerberos = docker.build("kdc", "--build-arg HTTP_PROXY=\"$HTTP_PROXY\" --build-arg HTTPS_PROXY=\"$HTTPS_PROXY\" --build-arg NO_PROXY=\"$NO_PROXY\" ./containers/kdc")
+                kerberos = docker.build("kdc", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/kdc")
               }
 
             }
