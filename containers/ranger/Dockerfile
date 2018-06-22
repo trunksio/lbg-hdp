@@ -1,4 +1,14 @@
 FROM centos:6
+
+ARG HTTP_PROXY=''
+ENV HTTP_PROXY $HTTP_PROXY
+
+ARG HTTPS_PROXY=''
+ENV HTTPS_PROXY $HTTPS_PROXY
+
+ARG NO_PROXY=''
+ENV NO_PROXY $NO_PROXY
+
 ARG AMBARI_REPO_URL
 ARG HDP_REPO_URL
 RUN yum install -y sudo wget openssl-devel postgresql-jdbc mysql-connector-java unzip

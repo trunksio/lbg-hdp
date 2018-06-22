@@ -1,6 +1,16 @@
 FROM centos:6
 ARG AMBARI_REPO_URL
 ARG HDP_REPO_URL
+
+ARG HTTP_PROXY=''
+ENV HTTP_PROXY $HTTP_PROXY
+
+ARG HTTPS_PROXY=''
+ENV HTTPS_PROXY $HTTPS_PROXY
+
+ARG NO_PROXY=''
+ENV NO_PROXY $NO_PROXY
+
 RUN yum install -y sudo wget openssl-devel postgresql-jdbc mysql-connector-java unzip
 RUN wget -nv ${AMBARI_REPO_URL} -O /etc/yum.repos.d/ambari.repo
 RUN wget -nv ${HDP_REPO_URL} -O /etc/yum.repos.d/hdp.repo

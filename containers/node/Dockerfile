@@ -5,6 +5,15 @@ ARG HDP_REPO_URL='http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2
 ENV AMBARI_REPO_URL $AMBARI_REPO_URL
 ENV HDP_REPO_URL $HDP_REPO_URL
 
+ARG HTTP_PROXY=''
+ENV HTTP_PROXY $HTTP_PROXY
+
+ARG HTTPS_PROXY=''
+ENV HTTPS_PROXY $HTTPS_PROXY
+
+ARG NO_PROXY=''
+ENV NO_PROXY $NO_PROXY
+
 RUN yum install -y sudo wget openssl-devel postgresql-jdbc mysql-connector-java unzip
 RUN wget -nv ${AMBARI_REPO_URL} -O /etc/yum.repos.d/ambari.repo
 RUN wget -nv ${HDP_REPO_URL} -O /etc/yum.repos.d/hdp.repo
