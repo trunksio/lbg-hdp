@@ -15,7 +15,7 @@ ARG NO_PROXY=''
 ENV NO_PROXY=$NO_PROXY
 
 # force the use of a whitelisted centos mirror.
-COPY ../common-files/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+COPY CentOS-Base.repo /etc/yum.repos.d/
 
 RUN yum install -y wget sudo net-tools
 RUN wget -nv ${AMBARI_REPO_URL} -O /etc/yum.repos.d/ambari.repo
