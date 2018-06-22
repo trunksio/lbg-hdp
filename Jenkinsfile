@@ -23,7 +23,7 @@ pipeline {
                                 "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
                             
                             script {
-                                ambari = docker.build("ambari-server", "./containers/ambari-server")
+                                ambari = docker.build("ambari-server", "-e HTTP_PROXY=$HTTP_PROXY -e HTTPS_PROXY=$HTTPS_PROXY -e NO_PROXY=$NO_PROXY ./containers/ambari-server")
                             }
                         }
                     }
@@ -35,7 +35,7 @@ pipeline {
                                 "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
 
                             script {    
-                                node = docker.build("node", "./containers/node")
+                                node = docker.build("node", "-e HTTP_PROXY=$HTTP_PROXY -e HTTPS_PROXY=$HTTPS_PROXY -e NO_PROXY=$NO_PROXY ./containers/node")
                             }
                         }
                     }
@@ -47,7 +47,7 @@ pipeline {
                                 "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
 
                             script {    
-                                postgres = docker.build("postgres", "./containers/postgres")
+                                postgres = docker.build("postgres", "-e HTTP_PROXY=$HTTP_PROXY -e HTTPS_PROXY=$HTTPS_PROXY -e NO_PROXY=$NO_PROXY ./containers/postgres")
                             }
                         }
                     }
@@ -59,7 +59,7 @@ pipeline {
                                 "HDP_REPO_URL=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/hdp.repo"]) {
 
                             script {    
-                                kerberos = docker.build("kdc", "./containers/kdc")
+                                kerberos = docker.build("kdc", "-e HTTP_PROXY=$HTTP_PROXY -e HTTPS_PROXY=$HTTPS_PROXY -e NO_PROXY=$NO_PROXY ./containers/kdc")
                             }
                         }
                     }
