@@ -102,7 +102,7 @@ pipeline {
           steps {
             withEnv(overrides: ["REGISTRY_URL=https://registry.service.consul:443"]) {
               script {
-                docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
                   ambari.push("latest")
                 }
               }
@@ -115,7 +115,7 @@ pipeline {
           steps {
             withEnv(overrides: ["REGISTRY_URL=https://registry.service.consul:443"]) {
               script {
-                docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
                   node.push("worker")
                 }
               }
