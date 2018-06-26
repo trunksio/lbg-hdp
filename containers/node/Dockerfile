@@ -16,6 +16,9 @@ ENV https_proxy=$HTTPS_PROXY
 ARG NO_PROXY=''
 ENV NO_PROXY=$NO_PROXY
 
+# force the use of a whitelisted centos mirror.
+COPY CentOS-Base.repo /etc/yum.repos.d/
+
 RUN yum install -y sudo wget openssl-devel postgresql-jdbc mysql-connector-java unzip
 RUN wget -nv ${AMBARI_REPO_URL} -O /etc/yum.repos.d/ambari.repo
 RUN wget -nv ${HDP_REPO_URL} -O /etc/yum.repos.d/hdp.repo
