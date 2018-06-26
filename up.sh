@@ -1,1 +1,1 @@
-docker-compose  -p lbg -f examples/compose/multi-container.yml up
+docker-compose  -p lbg -f examples/compose/ranger.yml up

@@ -1,0 +1,11 @@
+--unattended
+--ds-password=adminadmin
+--admin-password=adminadmin
+--realm=LBG.DEV
+--domain=lbg.dev
+--hostname=ipa.lbg.dev
+--setup-adtrust
+--setup-dns
+--auto-reverse
+--auto-forwarders
+
