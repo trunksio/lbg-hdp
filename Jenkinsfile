@@ -129,7 +129,7 @@ pipeline {
             script {
               withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
                 script {
-                  docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                  docker.withRegistry($REGISTRY_URL, 'nexus-credentials') {
                     node.push("master")
                   }
                 }
@@ -143,7 +143,7 @@ pipeline {
             script {
               withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
                 script {
-                  docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                  docker.withRegistry($REGISTRY_URL, 'nexus-credentials') {
                     postgres.push("latest")
                   }
                 }
@@ -157,7 +157,7 @@ pipeline {
             script {
               withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
                 script {
-                  docker.withRegistry('https://nexus-docker-internal:443', 'nexus-credentials') {
+                  docker.withRegistry($REGISTRY_URL, 'nexus-credentials') {
                     kerberos.push("latest")
                   }
                 }
