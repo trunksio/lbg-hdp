@@ -100,71 +100,48 @@ pipeline {
       parallel {
         stage('Push Ambari Image') {
           steps {
-            withEnv(overrides: ["REGISTRY_URL=https://registry.service.consul:443"]) {
               script {
                 docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
                   ambari.push("latest")
                 }
               }
-
-            }
-
           }
         }
         stage('Push Worker Image') {
           steps {
-            withEnv(overrides: ["REGISTRY_URL=https://registry.service.consul:443"]) {
               script {
                 docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
                   node.push("worker")
                 }
               }
-
-            }
-
           }
         }
         stage('Push Master Image') {
           steps {
             script {
-              withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
-                script {
-                  docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
+                docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
                     node.push("master")
-                  }
                 }
-              }
             }
-
           }
         }
         stage('Push Postgres Image') {
           steps {
             script {
-              withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
-                script {
-                  docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
+                docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
                     postgres.push("latest")
-                  }
                 }
-              }
             }
-
           }
         }
         stage('Push kdc Image') {
           steps {
-            script {
-              withEnv(["REGISTRY_URL=https://registry.service.consul:443"]) {
                 script {
                   docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
                     kerberos.push("latest")
                   }
                 }
-              }
             }
-
-          }
         }
       }
     }
