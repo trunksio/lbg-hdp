@@ -2,13 +2,7 @@ pipeline {
   agent any
   stages {
     stage('Clone repository') {
-      steps {
-        GIT_REV=checkout(scm).GIT_COMMIT
-
-        script {
-            echo $GIT_REV        
-        }
-      }
+        checkout scm     
     }
     // stage('Lint Dockerfiles') {
     //   parallel {
