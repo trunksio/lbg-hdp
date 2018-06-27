@@ -64,8 +64,8 @@ pipeline {
     }
     stage('Test/Scan Images') {
       parallel {
-        steps {
-            stage('Scan ambari image for vulnerabilities') {
+        stage('Scan ambari image for vulnerabilities') {
+            steps {
                 script {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aquasec-microscanner-token',
                                         passwordVariable: 'TOKEN',
