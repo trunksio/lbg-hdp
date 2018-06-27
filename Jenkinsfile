@@ -83,8 +83,10 @@ pipeline {
         }
         stage('Lint Node Image') {
             steps {
-                docker.image('hadolint/hadolint:latest-debian').withRun() { c ->
-                    sh 'hadolint ./containers/node/Dockerfile'
+                script {
+                    docker.image('hadolint/hadolint:latest-debian').withRun() { c ->
+                        sh 'hadolint ./containers/node/Dockerfile'
+                    }
                 }
             }
         }
