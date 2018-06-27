@@ -4,7 +4,10 @@ pipeline {
     stage('Clone repository') {
       steps {
         checkout scm
-        shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+
+        script {
+            shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+        }
       }
     }
     // stage('Lint Dockerfiles') {
