@@ -6,6 +6,37 @@ pipeline {
         checkout scm
       }
     }
+    stage('Lint Dockerfiles') {
+      parallel {
+        stage('Lint Ambari Image') {
+            steps {
+                script {
+                    docker.image('hadolint/hadolint:latest-debian').inside() {
+                        sh 'hadolint ./containers/ambari/Dockerfile'
+                    }
+                }
+            }
+        }
+        stage('Lint Node Image') {
+            steps {
+                script {
+                    docker.image('hadolint/hadolint:latest-debian').inside() {
+                        sh 'hadolint ./containers/node/Dockerfile'
+                    }
+                }
+            }
+        }
+        stage('Lint Postgres Image') {
+            steps {
+                script {
+                    docker.image('hadolint/hadolint:latest-debian').inside() {
+                        sh 'hadolint ./containers/postgres/Dockerfile'
+                    }
+                }
+            }
+        }
+      }
+    }
     stage('Build Images') {
       parallel {
         stage('Build Ambari Image') {
@@ -77,15 +108,6 @@ pipeline {
                             sh 'chmod +x /usr/local/bin/microscanner'
                             sh '/usr/local/bin/microscanner $MICROSCANNER_TOKEN --continue-on-failure'
                         }
-                    }
-                }
-            }
-        }
-        stage('Lint Node Image') {
-            steps {
-                script {
-                    docker.image('hadolint/hadolint:latest-debian').inside() {
-                        sh 'hadolint ./containers/node/Dockerfile'
                     }
                 }
             }
