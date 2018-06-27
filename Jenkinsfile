@@ -62,17 +62,10 @@ pipeline {
         }
       }
     }
-    stage('Test Images') {
+    stage('Test/Scan Images') {
       parallel {
-        stage('Test Ambari Image') {
-          steps {
-            script {
-              ambari.inside {
-                sh 'echo "Do some stuff"'
-              }
-            }
-
-          }
+        stage('Scan Ambari image for OS vulnerabilities') {
+            aquamicroscanner imageName: ambari.imageName(), notCompliesCmd: 'exit 1', onDisallowed: 'warn'
         }
         stage('Test Node Image') {
           steps {
