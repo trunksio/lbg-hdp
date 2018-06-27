@@ -82,11 +82,10 @@ pipeline {
             }
         }
         stage('Lint Node Image') {
-            agent {
-                docker { image 'hadolint/hadolint:latest-debian' }
-            }
             steps {
-                sh 'hadolint ./containers/node/Dockerfile'
+                docker.image('hadolint/hadolint:latest-debian').withRun() { c ->
+                    sh 'hadolint ./containers/node/Dockerfile'
+                }
             }
         }
         stage('Test Postgres Image') {
