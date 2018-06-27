@@ -6,6 +6,5 @@
 --hostname=ipa.lbg.dev
 --setup-adtrust
 --setup-dns
---auto-reverse
---auto-forwarders
-
+--auto-forwarder
+--reverse-zone=1.18.172.in-addr.arpa.

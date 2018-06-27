@@ -56,7 +56,9 @@ EXPOSE 53/udp 53 80 443 389 636 88 464 88/udp 464/udp 123/udp 7389 9443 9444 944
 
 VOLUME [ "/tmp", "/run","/data" ]
 STOPSIGNAL RTMIN+3
-ENTRYPOINT [ "/usr/local/sbin/init" ]
+#COPY entrypoint.sh /
+#COPY ipa-server-install-options /root
+ENTRYPOINT [ "/usr/local/sbin/init" ] 
 RUN uuidgen > /data-template/build-id
 
 # Invocation:

@@ -22,3 +22,4 @@ RUN yum install -y ipa-client oddjob-mkhomedir openssh
 RUN authconfig --enablemkhomedir --update
 RUN chkconfig oddjobd on
 ADD scripts/resolv.conf /etc/resolv.conf.bak
+RUN yum -y install ipa-admintools

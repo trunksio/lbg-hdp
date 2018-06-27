@@ -3,8 +3,8 @@
 "credentials" : [
   {
     "alias" : "kdc.admin.credential",
-    "principal" : "admin/admin@LBG.DEV",
-    "key" : "123ABCabc456",
+    "principal" : "hadoopadmin@LBG.DEV",
+    "key" : "hadoopadmin",
     "type" : "TEMPORARY"
   }
 ],
@@ -24,9 +24,9 @@
         "properties_attributes" : { },
         "properties" : {
           "realm" : "LBG.DEV",
-          "kdc_type" : "mit-kdc",
-          "kdc_hosts" : "kdc.lbg.dev",
-          "admin_server_host" : "kdc.lbg.dev"
+          "kdc_type" : "ipaserver",
+          "kdc_hosts" : "ipa.lbg.dev",
+          "admin_server_host" : "ipa.lbg.dev"
         }
       }
     },
@@ -35,7 +35,7 @@
         "properties_attributes" : { },
         "properties" : {
           "domains" : "LBG.DEV",
-          "manage_krb5_conf" : "true"
+          "manage_krb5_conf" : "false"
         }
       }
     }
@@ -45,10 +45,13 @@
     "hosts":[ { "fqdn":"ambari-server.lbg.dev" }]
   },
   { "name":"host_group_2",
-    "hosts":[ { "fqdn":"dn0.lbg.dev" },{ "fqdn":"dn1.lbg.dev" },{ "fqdn":"dn2.lbg.dev" } ]
+    "hosts":[ { "fqdn":"dn0.lbg.dev" }]
   },
   { "name":"host_group_3",
-    "hosts":[ { "fqdn":"master0.lbg.dev" }] 
+    "hosts":[{ "fqdn":"dn1.lbg.dev" },{ "fqdn":"dn2.lbg.dev" }]
+  },
+  { "name":"host_group_4",
+    "hosts":[ { "fqdn":"master0.lbg.dev" }]
   }
 ]
 }
