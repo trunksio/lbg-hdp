@@ -3,11 +3,10 @@ pipeline {
   stages {
     stage('Clone repository') {
       steps {
-        checkout scm
+        GIT_REV=checkout(scm).GIT_COMMIT
 
         script {
-            shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-            echo $shortCommit
+            echo $GIT_REV        
         }
       }
     }
