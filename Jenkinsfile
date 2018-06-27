@@ -4,7 +4,6 @@ pipeline {
     stage('Clone repository') {
       steps {
         checkout scm
-        def GIT_COMMIT = checkout([$class: 'GitSCM'])['GIT_COMMIT']
       }
     }
     // stage('Lint Dockerfiles') {
