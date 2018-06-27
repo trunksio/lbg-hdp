@@ -65,7 +65,9 @@ pipeline {
     stage('Test/Scan Images') {
       parallel {
         stage('Scan Ambari image for OS vulnerabilities') {
-            aquamicroscanner imageName: ambari.imageName(), notCompliesCmd: 'exit 1', onDisallowed: 'warn'
+            steps {
+                aquamicroscanner imageName: ambari.imageName(), notCompliesCmd: 'exit 1', onDisallowed: 'warn'
+            }
         }
         stage('Test Node Image') {
           steps {
