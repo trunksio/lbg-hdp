@@ -64,17 +64,19 @@ pipeline {
     }
     stage('Test/Scan Images') {
       parallel {
-        stage('Scan ambari image for vulnerabilities') {
-            script {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aquasec-microscanner-token',
-                                    passwordVariable: 'TOKEN',
-                                    usernameVariable: 'USER']]) {
+        steps {
+            stage('Scan ambari image for vulnerabilities') {
+                script {
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aquasec-microscanner-token',
+                                        passwordVariable: 'TOKEN',
+                                        usernameVariable: 'USER']]) {
 
-                    ambari.inside("-u root --env \"MICROSCANNER_TOKEN=${env.TOKEN}\" --env https_proxy=$HTTPS_PROXY"){
-                        sh 'mkdir -p /usr/local/bin'
-                        sh 'curl https://get.aquasec.com/microscanner -o /usr/local/bin/microscanner'
-                        sh 'chmod +x /usr/local/bin/microscanner'
-                        sh '/usr/local/bin/microscanner $MICROSCANNER_TOKEN --continue-on-failure'
+                        ambari.inside("-u root --env \"MICROSCANNER_TOKEN=${env.TOKEN}\" --env https_proxy=$HTTPS_PROXY"){
+                            sh 'mkdir -p /usr/local/bin'
+                            sh 'curl https://get.aquasec.com/microscanner -o /usr/local/bin/microscanner'
+                            sh 'chmod +x /usr/local/bin/microscanner'
+                            sh '/usr/local/bin/microscanner $MICROSCANNER_TOKEN --continue-on-failure'
+                        }
                     }
                 }
             }
