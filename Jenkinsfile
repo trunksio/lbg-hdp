@@ -71,7 +71,7 @@ pipeline {
                                         passwordVariable: 'TOKEN',
                                         usernameVariable: 'USER']]) {
 
-                        ambari.inside("-u root --env \"MICROSCANNER_TOKEN=${env.TOKEN}\" --env https_proxy=$HTTPS_PROXY"){
+                        ambari.inside("-u root --env \"MICROSCANNER_TOKEN=${env.TOKEN}\" --env https_proxy=$HTTPS_PROXY --env HTTPS_PROXY=$HTTPS_PROXY"){
                             sh 'mkdir -p /usr/local/bin'
                             sh 'curl https://get.aquasec.com/microscanner -o /usr/local/bin/microscanner'
                             sh 'chmod +x /usr/local/bin/microscanner'
@@ -84,7 +84,7 @@ pipeline {
         stage('Lint Node Image') {
             steps {
                 script {
-                    docker.image('hadolint/hadolint:latest-debian').withRun() { c ->
+                    docker.image('hadolint/hadolint:latest-debian').inside() {
                         sh 'hadolint ./containers/node/Dockerfile'
                     }
                 }
