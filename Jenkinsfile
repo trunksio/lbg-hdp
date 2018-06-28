@@ -102,11 +102,10 @@ pipeline {
                                         passwordVariable: 'TOKEN',
                                         usernameVariable: 'USER']]) {
 
-                        ambari.inside("-u root --env \"MICROSCANNER_TOKEN=${env.TOKEN}\" --env https_proxy=$HTTPS_PROXY --env HTTPS_PROXY=$HTTPS_PROXY"){
+                        ambari.inside("-u root --env \"MICROSCANNER_TOKEN=${env.TOKEN}\" --env https_proxy=$HTTPS_PROXY --env HTTPS_PROXY=$HTTPS_PROXY --env http_proxy=$HTTP_PROXY --env HTTP_PROXY=$HTTP_PROXY"){
                             sh 'mkdir -p /usr/local/bin'
                             sh 'curl https://get.aquasec.com/microscanner -o /usr/local/bin/microscanner'
                             sh 'chmod +x /usr/local/bin/microscanner'
-                            sh 'ping -c 3 microscanner.aquasec.com'
                             sh '/usr/local/bin/microscanner $MICROSCANNER_TOKEN'
                         }
                     }
