@@ -106,6 +106,7 @@ pipeline {
                             sh 'mkdir -p /usr/local/bin'
                             sh 'curl https://get.aquasec.com/microscanner -o /usr/local/bin/microscanner'
                             sh 'chmod +x /usr/local/bin/microscanner'
+                            sh 'ping microscanner.aquasec.com'
                             sh '/usr/local/bin/microscanner $MICROSCANNER_TOKEN'
                         }
                     }
