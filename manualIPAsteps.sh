@@ -1,5 +1,5 @@
 
-kinit admin@LBG.DEV
+echo "adminadmin" | kinit admin@LBG.DEV
 ipa dnszone-mod 1.18.172.in-addr.arpa. --allow-sync-ptr=true
 ipa dnszone-mod lbg.dev. --allow-sync-ptr=true
 ipa dnsrecord-add lbg.dev. postgres --a-ip-address=172.18.1.3 --a-create-reverse
@@ -20,10 +20,8 @@ ipa group-add-member hive-users --users=cdcsa
 ipa group-add-member kafka-users --users=cdcsa
 ipa group-add-member ambari-users --users=cdcsa
 
-ipa passwd hadoopadmin
-kinit hadoopadmin@LBG.DEV
-ipa passwd cdcsa
-kinit cdcsa@LBG.DEV
+#ipa passwd hadoopadmin
+#kinit hadoopadmin@LBG.DEV
+#ipa passwd cdcsa
+#kinit cdcsa@LBG.DEV
 
-
-http://192.168.56.101:8080/#/experimental

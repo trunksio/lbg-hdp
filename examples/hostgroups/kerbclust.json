@@ -24,7 +24,7 @@
         "properties_attributes" : { },
         "properties" : {
           "realm" : "LBG.DEV",
-          "kdc_type" : "ipaserver",
+          "kdc_type" : "IPA",
           "kdc_hosts" : "ipa.lbg.dev",
           "admin_server_host" : "ipa.lbg.dev"
         }
