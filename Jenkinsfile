@@ -92,16 +92,16 @@ pipeline {
         //         }
         //     }
         // }
-        // stage('Test Node Image') {
-        //   steps {
-        //     script {
-        //       node.inside {
-        //         sh 'echo "Do some stuff"'
-        //       }
-        //     }
+        stage('Test Node Image') {
+          steps {
+            script {
+              node.inside {
+                sh 'echo "Do some stuff"'
+              }
+            }
 
-        //   }
-        // }
+          }
+        }
         stage('Test Postgres Image') {
           steps {
             script {
@@ -112,16 +112,16 @@ pipeline {
 
           }
         }
-        stage('Test IPA Image') {
-          steps {
-            script {
-              ipa.inside {
-                sh 'echo "Do some stuff"'
-              }
-            }
+        // stage('Test IPA Image') {
+        //   steps {
+        //     script {
+        //       ipa.inside {
+        //         sh 'echo "Do some stuff"'
+        //       }
+        //     }
 
-          }
-        }
+        //   }
+        // }
       }
     }
     stage('Push Images') {
