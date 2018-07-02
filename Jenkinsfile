@@ -59,7 +59,7 @@ pipeline {
         stage('Build Postgres Image') {
           steps {
               script {
-                postgres = docker.build("postgres", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/postgres")
+                postgres = docker.build("postgres", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY --build-arg AMBARI_DDL_URL=$AMBARI_DDL_URL ./containers/postgres")
               }
           }
         }
@@ -164,5 +164,6 @@ pipeline {
     HTTPS_PROXY = '"http://dmz-proxy-01.sandbox.local:3128"'
     NO_PROXY = '"registry.service.consul"'
     REGISTRY_URL = 'https://registry:443'
+    AMBARI_DDL_URL = 'https://raw.githubusercontent.com/apache/ambari/release-2.6.1/ambari-server/src/main/resources/Ambari-DDL-Postgres-CREATE.sql'
   }
 }
