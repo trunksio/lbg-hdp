@@ -66,7 +66,7 @@ pipeline {
         stage('Build IPA Image') {
           steps {
               script {
-                ipa = docker.build("kdc", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/ipa")
+                ipa = docker.build("ipa", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/ipa")
               }
           }
         }
