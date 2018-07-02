@@ -47,26 +47,12 @@ pipeline {
     //     }
     //   }
     // }
-    stage('Build Images') {
+    stage('Build HDP Images') {
       parallel {
-        stage('Build Ambari-Server Image') {
+        stage('Build Node Image') {
           steps {
               script {
-                ambari = docker.build("ambari-server", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/node")
-              }
-          }
-        }
-        stage('Build Master Image') {
-          steps {
-              script {
-                master = docker.build("master", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/node")
-              }
-          }
-        }
-        stage('Build Worker Image') {
-          steps {
-              script {
-                worker = docker.build("worker", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/node")
+                node = docker.build("node", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/node")
               }
           }
         }
@@ -88,14 +74,14 @@ pipeline {
     }
     stage('Test/Scan Images') {
       parallel {
-        // stage('Scan ambari image for vulnerabilities') {
+        // stage('Scan Node image for vulnerabilities') {
         //     steps {
         //         script {
         //             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'aquasec-microscanner-token',
         //                                 passwordVariable: 'TOKEN',
         //                                 usernameVariable: 'USER']]) {
 
-        //                 ambari.inside("-u root --env \"MICROSCANNER_TOKEN=${env.TOKEN}\" --env https_proxy=$HTTPS_PROXY --env HTTPS_PROXY=$HTTPS_PROXY --env http_proxy=$HTTP_PROXY --env HTTP_PROXY=$HTTP_PROXY"){
+        //                 node.inside("-u root --env \"MICROSCANNER_TOKEN=${env.TOKEN}\" --env https_proxy=$HTTPS_PROXY --env HTTPS_PROXY=$HTTPS_PROXY --env http_proxy=$HTTP_PROXY --env HTTP_PROXY=$HTTP_PROXY"){
         //                     sh 'mkdir -p /usr/local/bin'
         //                     sh 'env'
         //                     sh 'curl https://get.aquasec.com/microscanner -o /usr/local/bin/microscanner'
@@ -106,30 +92,10 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Test Ambari Image') {
+        stage('Test Node Image') {
           steps {
             script {
-              postgres.inside {
-                sh 'echo "Do some stuff"'
-              }
-            }
-
-          }
-        }
-        stage('Test Master Image') {
-          steps {
-            script {
-              postgres.inside {
-                sh 'echo "Do some stuff"'
-              }
-            }
-
-          }
-        }
-        stage('Test Worker Image') {
-          steps {
-            script {
-              postgres.inside {
+              node.inside {
                 sh 'echo "Do some stuff"'
               }
             }
@@ -160,34 +126,14 @@ pipeline {
     }
     stage('Push Images') {
       parallel {
-        stage('Push Ambari Image') {
+        stage('Push Node Image') {
           steps {
               script {
                 docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
-                  ambari.push("latest")
-                  ambari.push("${GIT_HASH}")
+                  node.push("latest")
+                  node.push("${GIT_HASH}")
                 }
               }
-          }
-        }
-        stage('Push Master Image') {
-          steps {
-              script {
-                docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
-                  master.push("worker")
-                  master.push("${GIT_HASH}")
-                }
-              }
-          }
-        }
-        stage('Push Worker Image') {
-          steps {
-            script {
-                docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
-                    worker.push("master")
-                    worker.push("${GIT_HASH}")
-                }
-            }
           }
         }
         stage('Push Postgres Image') {
