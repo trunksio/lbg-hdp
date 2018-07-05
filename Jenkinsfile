@@ -112,15 +112,15 @@ pipeline {
 
           }
         }
-        stage('Test IPA Image') {
-          steps {
-            script {
-              // ipa.inside {
-              //   sh 'echo "Do some stuff"'
-              // }
-            }
-          }
-        }
+        // stage('Test IPA Image') {
+        //   steps {
+        //     script {
+        //       // ipa.inside {
+        //       //   sh 'echo "Do some stuff"'
+        //       // }
+        //     }
+        //   }
+        // }
       }
     }
     stage('Push Images') {
