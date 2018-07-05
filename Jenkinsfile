@@ -116,7 +116,7 @@ pipeline {
           steps {
             script {
               ipa.inside {
-                bash 'echo "Do some stuff"'
+                sh 'echo "Do some stuff"'
               }
             }
           }
