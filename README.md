@@ -3,11 +3,17 @@
 To run:
 
 cd lbg-hdp
-docker-compose -p lbg -f examples/compose/multi-container.yml up
+docker-compose -p lbg -f examples/compose/ranger.yml up
 ```
 Then in another screen:
 ```
-./makeHosts.sh
+./regDomain.sh
+on ipa server: do these manual steps:
+#ipa passwd hadoopadmin
+#kinit hadoopadmin@LBG.DEV
+#ipa passwd cdcsa
+#kinit cdcsa@LBG.DEV
+
 ./run.sh
 ```
 

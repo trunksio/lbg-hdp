@@ -3,8 +3,8 @@
 "credentials" : [
   {
     "alias" : "kdc.admin.credential",
-    "principal" : "admin/admin@LBG.DEV",
-    "key" : "123ABCabc456",
+    "principal" : "hadoopadmin@LBG.DEV",
+    "key" : "hadoopadmin",
     "type" : "TEMPORARY"
   }
 ],
@@ -18,14 +18,40 @@
         "javax.jdo.option.ConnectionURL" : "jdbc:postgresql://postgres.lbg.dev"
       }
     }
-  }
-],
+  },
+    {
+      "kerberos-env": {
+        "properties_attributes" : { },
+        "properties" : {
+          "realm" : "LBG.DEV",
+          "kdc_type" : "IPA",
+          "kdc_hosts" : "ipa.lbg.dev",
+          "admin_server_host" : "ipa.lbg.dev"
+        }
+      }
+    },
+    {
+      "krb5-conf": {
+        "properties_attributes" : { },
+        "properties" : {
+          "domains" : "LBG.DEV",
+          "manage_krb5_conf" : "false"
+        }
+      }
+    }
+  ],
 "host_groups":[
   { "name":"host_group_1",
-    "hosts":[ { "fqdn":"dn0.lbg.dev" },{ "fqdn":"dn1.lbg.dev" },{ "fqdn":"dn2.lbg.dev" } ]
+    "hosts":[ { "fqdn":"ambari-server.lbg.dev" }]
   },
   { "name":"host_group_2",
-    "hosts":[ { "fqdn":"master0.lbg.dev" }] 
+    "hosts":[ { "fqdn":"dn0.lbg.dev" }]
+  },
+  { "name":"host_group_3",
+    "hosts":[{ "fqdn":"dn1.lbg.dev" },{ "fqdn":"dn2.lbg.dev" }]
+  },
+  { "name":"host_group_4",
+    "hosts":[ { "fqdn":"master0.lbg.dev" }]
   }
 ]
 }

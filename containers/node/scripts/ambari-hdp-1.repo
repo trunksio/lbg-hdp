@@ -1,5 +1,5 @@
-[HDP-2.6-repo-1] 
-name=HDP-2.6-repo-1 
+[HDP-2.6-repo-1]
+name=HDP-2.6-repo-1
 baseurl=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0
 gpgcheck=0
 gpgkey=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
@@ -12,5 +12,13 @@ name=HDP-UTILS Version - HDP-UTILS-1.1.0.22
 baseurl=http://public-repo-1.hortonworks.com/HDP-UTILS-1.1.0.22/repos/centos6
 gpgcheck=0
 gpgkey=http://public-repo-1.hortonworks.com/HDP/centos6/2.x/updates/2.6.4.0/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
+enabled=1
+priority=1
+
+[HDP-SOLR-2.6.1-100]
+name=HDP-SOLR Version - HDP-SOLR-2.6.1-100
+baseurl=http://public-repo-1.hortonworks.com/HDP-SOLR-2.6.1-100/repos/centos6
+gpgcheck=0
+gpgkey=http://public-repo-1.hortonworks.com/HDP-SOLR-2.6.1-100/repos/centos6/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins
 enabled=1
 priority=1
