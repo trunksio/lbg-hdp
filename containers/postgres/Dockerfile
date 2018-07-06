@@ -1,4 +1,4 @@
-FROM postgres:9.4
+FROM postgres:9.6
 
 ARG HTTP_PROXY=''
 ENV HTTP_PROXY=$HTTP_PROXY
@@ -11,7 +11,6 @@ ENV https_proxy=$HTTPS_PROXY
 ARG NO_PROXY=''
 ENV NO_PROXY=$NO_PROXY
 
-RUN apt-get update -y && apt-get install -y wget
 ARG AMBARI_DDL_URL
 ADD pg_hba.conf /pg_hba.conf
 ADD scripts/* /docker-entrypoint-initdb.d/
