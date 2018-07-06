@@ -115,11 +115,10 @@ pipeline {
         // stage('Test IPA Image') {
         //   steps {
         //     script {
-        //       ipa.inside {
-        //         sh 'echo "Do some stuff"'
-        //       }
+        //       // ipa.inside {
+        //       //   sh 'echo "Do some stuff"'
+        //       // }
         //     }
-
         //   }
         // }
       }
