@@ -3,16 +3,6 @@ FROM centos:6
 COPY CentOS-Base.repo /etc/yum.repos.d/
 COPY scripts/ambari-hdp-1.repo /etc/yum.repos.d/
 COPY scripts/ambari.repo /etc/yum.repos.d/
-ARG HTTP_PROXY=''
-ENV HTTP_PROXY=$HTTP_PROXY
-ENV http_proxy=$HTTP_PROXY
-
-ARG HTTPS_PROXY=''
-ENV HTTPS_PROXY=$HTTPS_PROXY
-ENV https_proxy=$HTTPS_PROXY
-
-ARG NO_PROXY=''
-ENV NO_PROXY=$NO_PROXY
 
 RUN yum install -y sudo wget openssl-devel unzip krb5-server krb5-libs krb5-workstation ipa-client oddjob-mkhomedir openssh  postgresql-jdbc install ipa-admintools
 RUN yum install -y sudo wget ambari-agent ambari-metrics-* ambari-logsearch-* hadoop* zookeeper* hive* phoenix_* ranger* storm_* kafka_* pig_* datafu_* spark* livy* zeppelin* falcon_* oozie_* smartsense* druid* superset* lzo snappy-devel rpcbind ambari-server 

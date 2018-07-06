@@ -1,17 +1,6 @@
 # Clone from the CentOS 7
 FROM centos:centos7
 COPY CentOS-Base.repo /etc/yum.repos.d/
-ARG HTTP_PROXY=''
-ENV HTTP_PROXY=$HTTP_PROXY
-ENV http_proxy=$HTTP_PROXY
-
-ARG HTTPS_PROXY=''
-ENV HTTPS_PROXY=$HTTPS_PROXY
-ENV https_proxy=$HTTPS_PROXY
-
-ARG NO_PROXY=''
-ENV NO_PROXY=$NO_PROXY
-
 
 MAINTAINER Jan Pazdziora
 # Moving groupadd before freeipa installation to ensure uid and guid will be same

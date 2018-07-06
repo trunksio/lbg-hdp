@@ -10,10 +10,10 @@ pipeline {
       steps {
         script {
           env.GIT_HASH = sh(
-                script: "git show --oneline | head -1 | cut -d' ' -f1",
-                returnStdout: true
-              ).trim()
-            }
+              script: "git show --oneline | head -1 | cut -d' ' -f1",
+              returnStdout: true
+            ).trim()
+          }
         }
     }
     // stage('Lint Dockerfiles') {
@@ -51,23 +51,23 @@ pipeline {
       parallel {
         stage('Build Node Image') {
           steps {
-              script {
-                node = docker.build("node", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/node")
-              }
+            script {
+              node = docker.build("node", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg http_proxy=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg https_proxy=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/node")
+            }
           }
         }
         stage('Build Postgres Image') {
           steps {
-              script {
-                postgres = docker.build("postgres", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY --build-arg AMBARI_DDL_URL=$AMBARI_DDL_URL ./containers/postgres")
-              }
+            script {
+              postgres = docker.build("postgres", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg http_proxy=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg https_proxy=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY --build-arg AMBARI_DDL_URL=$AMBARI_DDL_URL ./containers/postgres")
+            }
           }
         }
         stage('Build IPA Image') {
           steps {
-              script {
-                ipa = docker.build("ipa", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/ipa")
-              }
+            script {
+              ipa = docker.build("ipa", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg http_proxy=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg https_proxy=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/ipa")
+            }
           }
         }
       }
@@ -99,7 +99,6 @@ pipeline {
                 sh 'echo "Do some stuff"'
               }
             }
-
           }
         }
         stage('Test Postgres Image') {
@@ -109,7 +108,6 @@ pipeline {
                 sh 'echo "Do some stuff"'
               }
             }
-
           }
         }
         // stage('Test IPA Image') {
@@ -127,33 +125,45 @@ pipeline {
       parallel {
         stage('Push Node Image') {
           steps {
-              script {
-                docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
-                  node.push("latest")
-                  node.push("${GIT_HASH}")
-                }
+            script {
+              docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
+                node.push("${GIT_HASH}")
               }
+            }
           }
         }
         stage('Push Postgres Image') {
           steps {
             script {
-                docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
-                    postgres.push("latest")
-                    postgres.push("${GIT_HASH}")
-                }
+              docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
+                  postgres.push("${GIT_HASH}")
+              }
             }
           }
         }
         stage('Push IPA Image') {
           steps {
-                script {
-                  docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
-                    ipa.push("latest")
-                    ipa.push("${GIT_HASH}")
-                  }
-                }
+            script {
+              docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
+                ipa.push("${GIT_HASH}")
+              }
             }
+          }
+        }
+        stage('Push latest tags'){
+          when{
+            branch 'master'
+          }
+          steps {
+            // only push latest tags from master.
+            script {
+                docker.withRegistry("$REGISTRY_URL", 'nexus-credentials') {
+                  node.push("latest")
+                  postgres.push("latest")
+                  ipa.push("latest")
+              }
+            }
+          }
         }
       }
     }
