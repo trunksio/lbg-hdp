@@ -52,7 +52,7 @@ pipeline {
         stage('Build Node Image') {
           steps {
             script {
-              node = docker.build("node", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg http_proxy=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg https_proxy=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY ./containers/node")
+              node = docker.build("node", "--build-arg HTTP_PROXY=$HTTP_PROXY --build-arg http_proxy=$HTTP_PROXY --build-arg HTTPS_PROXY=$HTTPS_PROXY --build-arg https_proxy=$HTTPS_PROXY --build-arg NO_PROXY=$NO_PROXY --add-host nexus:10.113.154.139 ./containers/node")
             }
           }
         }
