@@ -1,9 +1,13 @@
 FROM postgres:9.6
 
-RUN apt-get update -y && apt-get install -y wget
+# hadolint ignore=DL3008,DL3015
+RUN apt-get update -y \
+ && apt-get install -y wget \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 ARG AMBARI_DDL_URL
-ADD pg_hba.conf /pg_hba.conf
-ADD scripts/* /docker-entrypoint-initdb.d/
+COPY pg_hba.conf /pg_hba.conf
+COPY scripts/* /docker-entrypoint-initdb.d/
 RUN chmod -R 755 /docker-entrypoint-initdb.d/
 RUN mkdir /home/postgres
 RUN chown postgres /pg_hba.conf /home/postgres
