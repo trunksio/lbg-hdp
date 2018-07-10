@@ -171,7 +171,7 @@ pipeline {
   environment {
     HTTP_PROXY = '"http://dmz-proxy-01.sandbox.local:3128"'
     HTTPS_PROXY = '"http://dmz-proxy-01.sandbox.local:3128"'
-    NO_PROXY = '"registry.service.consul"'
+    NO_PROXY = '"registry.service.consul,nexus"'
     REGISTRY_URL = 'https://registry:443'
     AMBARI_DDL_URL = 'https://raw.githubusercontent.com/apache/ambari/release-2.6.1/ambari-server/src/main/resources/Ambari-DDL-Postgres-CREATE.sql'
   }
