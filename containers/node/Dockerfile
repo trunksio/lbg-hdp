@@ -10,12 +10,12 @@ RUN yum install -y lucidworks-hdpsearch
 COPY scripts/start.sh /start.sh
 COPY scripts/ambari.repo /etc/yum.repos.d/ambari.repo
 RUN mkdir -p /usr/share/java/
-RUN wget --no-check-certificate --server-response 'https://nexus/repository/files/postgresql-42.2.2.jar' -O /usr/share/java/postgresql-42.2.2.jar
+RUN curl -k 'https://nexus/repository/files/postgresql-42.2.2.jar' -o /usr/share/java/postgresql-42.2.2.jar
 RUN ambari-server setup --jdbc-db postgres --jdbc-driver=/usr/share/java/postgresql-42.2.2.jar
 RUN ambari-server setup --database=postgres --databasehost=postgres.lbg.dev --databaseport=5432 --databasename=ambari --postgresschema=ambari  --databaseusername=ambari --databasepassword=dev --silent
 COPY scripts/serverstart.sh /serverstart.sh
 COPY scripts/HDP-2.6.4.0-91.xml /tmp
-RUN wget http://public-repo-1.hortonworks.com/HDP-SOLR/hdp-solr-ambari-mp/solr-service-mpack-2.2.9.tar.gz -O /tmp/solr-service-mpack-2.2.9.tar.gz
+RUN curl http://public-repo-1.hortonworks.com/HDP-SOLR/hdp-solr-ambari-mp/solr-service-mpack-2.2.9.tar.gz -o /tmp/solr-service-mpack-2.2.9.tar.gz
 RUN ambari-server install-mpack --mpack=/tmp/solr-service-mpack-2.2.9.tar.gz
 RUN authconfig --enablemkhomedir --update
 COPY scripts/resolv.conf /etc/resolv.conf.bak
