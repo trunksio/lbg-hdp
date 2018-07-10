@@ -10,7 +10,7 @@ RUN yum install -y lucidworks-hdpsearch
 COPY scripts/start.sh /start.sh
 COPY scripts/ambari.repo /etc/yum.repos.d/ambari.repo
 RUN mkdir -p /usr/share/java/
-RUN wget --no-check-certificate 'https://nexus/repository/files/postgresql-42.2.2.jar' -O /usr/share/java/postgresql-42.2.2.jar
+RUN wget --no-check-certificate --server-response 'https://nexus/repository/files/postgresql-42.2.2.jar' -O /usr/share/java/postgresql-42.2.2.jar
 RUN ambari-server setup --jdbc-db postgres --jdbc-driver=/usr/share/java/postgresql-42.2.2.jar
 RUN ambari-server setup --database=postgres --databasehost=postgres.lbg.dev --databaseport=5432 --databasename=ambari --postgresschema=ambari  --databaseusername=ambari --databasepassword=dev --silent
 COPY scripts/serverstart.sh /serverstart.sh
