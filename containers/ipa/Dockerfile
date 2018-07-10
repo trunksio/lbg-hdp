@@ -55,10 +55,11 @@ ENV container docker
 
 EXPOSE 53/udp 53 80 443 389 636 88 464 88/udp 464/udp 123/udp 7389 9443 9444 9445
 
-VOLUME [ "/tmp", "/run","/data" ]
+VOLUME [ "/tmp", "/run"]
 STOPSIGNAL RTMIN+3
 #COPY entrypoint.sh /
-#COPY ipa-server-install-options /root
+RUN mkdir /data
+COPY ipa-server-install-options /data
 ENTRYPOINT [ "/usr/local/sbin/init" ] 
 RUN uuidgen > /data-template/build-id
 
