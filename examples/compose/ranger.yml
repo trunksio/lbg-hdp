@@ -215,7 +215,6 @@ services:
      - /sys/fs/cgroup:/sys/fs/cgroup:ro
      - ipa-tmp:/tmp
      - ipa-run:/run
-     - /data:/data
     networks:
      dev:
       ipv4_address: 172.18.1.2
@@ -233,7 +232,6 @@ volumes:
     dn0-data:
     dn1-data:
     dn2-data:
-    ipa-data:
     ipa-tmp:
      driver_opts:
       type: tmpfs
