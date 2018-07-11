@@ -1,3 +1,4 @@
+# TODO - Use an LBG base
 # Clone from the CentOS 7
 FROM centos:centos7
 COPY CentOS-Base.repo /etc/yum.repos.d/
