@@ -16,9 +16,9 @@ RUN sed -i 's/ips.append(ipautil.CheckedIPAddress(ha, match_local=True))/ips.app
 # Workaround https://fedorahosted.org/freeipa/ticket/6518
 RUN sed -i 's/getaddrinfo(fqdn/getaddrinfo(fqdn.rstrip(".")/' /usr/lib/python2.7/site-packages/ipaserver/install/installutils.py && python -m compileall /usr/lib/python2.7/site-packages/ipaserver/install/installutils.py
 
-# hadolint ignore=SC2038
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN find /etc/systemd/system/* '!' -name '*.wants' -print0 | xargs rm -rvf
+# hadolint ignore=SC2038
+RUN find /etc/systemd/system/* '!' -name '*.wants' | xargs rm -rvf
 RUN for i in basic.target sysinit.target network.service netconsole.service ; do rm -f /usr/lib/systemd/system/$i && ln -s /dev/null /usr/lib/systemd/system/$i ; done
 # Workaround https://bugzilla.redhat.com/show_bug.cgi?id=1433050
 RUN sed -i -E 's/(Requires=proc-fs-nfsd.mount)/#\1/'  /usr/lib/systemd/system/gssproxy.service
