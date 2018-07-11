@@ -17,7 +17,7 @@ RUN sed -i 's/getaddrinfo(fqdn/getaddrinfo(fqdn.rstrip(".")/' /usr/lib/python2.7
 
 # hadolint ignore=SC2038
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN find /etc/systemd/system/* '!' -name '*.wants' | xargs rm -rvf
+RUN find /etc/systemd/system/* '!' -name '*.wants' -print0 | xargs rm -rvf
 RUN for i in basic.target sysinit.target network.service netconsole.service ; do rm -f /usr/lib/systemd/system/$i && ln -s /dev/null /usr/lib/systemd/system/$i ; done
 # Workaround https://bugzilla.redhat.com/show_bug.cgi?id=1433050
 RUN sed -i -E 's/(Requires=proc-fs-nfsd.mount)/#\1/'  /usr/lib/systemd/system/gssproxy.service
@@ -46,8 +46,8 @@ COPY exit-via-chroot.conf /usr/lib/systemd/system/systemd-poweroff.service.d/
 
 COPY atomic-install-help /usr/share/ipa/
 COPY volume-data-list volume-data-mv-list volume-data-autoupdate /etc/
-# hadolint ignore=DL3003
-RUN set -e ; cd / ; mkdir /data-template ; cat /etc/volume-data-list | while read -r i ; do echo "$i" ; if [ -e "$i" ] ; then tar cf - .$i | ( cd /data-template && tar xf - ) ; else mkdir -p "/data-template$( dirname $i )" ; fi ; mkdir -p "$( dirname $i )" ; if [ "$i" == /var/log/ ] ; then mv /var/log /var/log-removed ; else rm -rf "$i" ; fi ; ln -sf "/data${i%/}" "${i%/}" ; done
+# hadolint ignore=DL3003,SC2002,SC2086
+RUN set -e ; cd / ; mkdir /data-template ; cat /etc/volume-data-list | while read -r i ; do echo "$i" ; if [ -e "$i" ] ; then tar cf - ".$i" | ( cd /data-template && tar xf - ) ; else mkdir -p "/data-template$( dirname $i )" ; fi ; mkdir -p "$( dirname $i )" ; if [ "$i" == /var/log/ ] ; then mv /var/log /var/log-removed ; else rm -rf "$i" ; fi ; ln -sf "/data${i%/}" "${i%/}" ; done
 RUN rm -rf /var/log-removed
 RUN sed -i 's!^d /var/log.*!L /var/log - - - - /data/var/log!' /usr/lib/tmpfiles.d/var.conf
 RUN rm -f /data-template/var/lib/systemd/random-seed
