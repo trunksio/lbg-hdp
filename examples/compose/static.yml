@@ -1,0 +1,229 @@
+version: '2.2'
+services:
+  postgres.lbg.dev:
+    image: registry:443/postgres:static
+    hostname: postgres
+    domainname: lbg.dev
+    dns: 172.18.1.2
+    networks:
+     dev:
+      ipv4_address: 172.18.1.3
+  ambari-server.lbg.dev:
+    image: registry:443/ambari-server:static
+    hostname: ambari-server
+    domainname: lbg.dev
+    ports:
+    #Ambari server
+     - "8080:8080"
+    #Ranger
+     - "6080:6080"
+     - "6182:6182"
+     - "6083:6083"
+     - "6183:6183"
+    command: /serverstart.sh
+    dns: 172.18.1.2
+    networks:
+     dev:
+      ipv4_address: 172.18.1.4
+  master0.lbg.dev:
+    image: registry:443/master0:static
+    privileged: true
+    hostname: master0
+    domainname: lbg.dev
+    ports:
+     # HDFS
+     - "8020:8020"
+     - "9000:9000"
+     - "50090:50090"
+     - "50070:50070"
+     # YARN
+     - "8088:8088"
+     - "8050:8050"
+     - "8025:8025"
+     - "8030:8030"
+     - "8141:8141"
+     - "45454:45454"
+     - "10200:10200"
+     - "8188:8188"
+     - "8190:8190"
+     - "19888:19888"
+     # HiveServer2
+     - "10000:10000"
+     - "9999:9999"
+     - "9933:9933"
+     - "10015:10015"
+     # HBase
+     - "16000:16000"
+     - "16010:16010"
+     # Storm
+     - "8000:8000"
+     - "8744:8744"
+     # Oozie
+     - "11000:11000"
+     - "11443:11443"
+     # Knox
+     - "8443:8443"
+     # Grafana
+     - "3000:3000"
+     # Zeppelin
+     - "9995:9995"
+     # Kerberos
+     - "88"
+     # Zookeeper
+     - "2181:2181"
+    command: /start.sh
+    dns: 172.18.1.2
+    networks:
+     dev:
+      ipv4_address: 172.18.1.5
+
+  dn0.lbg.dev:
+    image: registry:443/dn0:static
+    privileged: true
+    hostname: dn0
+    domainname: lbg.dev
+    ports:
+     # HDFS
+     - "50070"
+     - "50470"
+     - "50075"
+     - "50475"
+     - "50010"
+     - "50020"
+     - "50030"
+     # HBase
+     - "16020"
+     - "16030"
+     # Yarn
+     - "45454"
+     - "8042"
+     # Solr
+     - "8983"
+     - "6093"
+     # Kafka
+     - "6667"
+     - "9092"
+     # Zookeeper
+     - "2181"
+     - "2888"
+     - "3888"
+    command: /start.sh
+    dns: 172.18.1.2
+    networks:
+     dev:
+      ipv4_address: 172.18.1.6
+
+  dn1.lbg.dev:
+    image: registry:443/dn1:static
+    privileged: true
+    hostname: dn1
+    domainname: lbg.dev
+    ports:
+     # HDFS
+     - "50070"
+     - "50470"
+     - "50075"
+     - "50475"
+     - "50010"
+     - "50020"
+     - "50030"
+     # HBase
+     - "16020"
+     - "16030"
+     # Yarn
+     - "45454"
+     - "8042"
+     # Solr
+     - "8983"
+     # Kafka
+     - "6667"
+     - "9092"
+     # Zookeeper
+     - "2181"
+     - "2888"
+     - "3888"
+    command: /start.sh
+    dns: 172.18.1.2
+    networks:
+     dev:
+      ipv4_address: 172.18.1.7
+
+  dn2.lbg.dev:
+    image: registry:443/dn2:static
+    privileged: true
+    hostname: dn2
+    domainname: lbg.dev
+    ports:
+     # HDFS
+     - "50070"
+     - "50470"
+     - "50075"
+     - "50475"
+     - "50010"
+     - "50020"
+     - "50030"
+     # HBase
+     - "16020"
+     - "16030"
+     # Yarn
+     - "45454"
+     - "8042"
+     # Solr
+     - "8983"
+     # Kafka
+     - "6667"
+     - "9092"
+     # Zookeeper
+     - "2181"
+     - "2888"
+     - "3888"
+    command: /start.sh
+    dns: 172.18.1.2
+    networks:
+     dev:
+      ipv4_address: 172.18.1.8
+
+  ipa.lbg.dev:
+    image: registry:443/ipa:static
+    hostname: ipa.lbg.dev
+    ports:
+     - "53:53"
+     - "53:53/udp"
+     - "80:80"
+     - "88:88"
+     - "88:88/udp"
+     - "123:123"
+     - "389:389"
+     - "443:443"
+     - "464:464"
+     - "464:464/udp"
+     - "749:749"
+     - "7389:7389"
+     - "9443:9443"
+     - "9444:9444"
+     - "9445:9445"
+    volumes:
+     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+     - ipa-tmp:/tmp
+     - ipa-run:/run
+    networks:
+     dev:
+      ipv4_address: 172.18.1.2
+
+networks:
+  dev:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+     config:
+      - subnet: 172.18.1.0/24
+      - subnet: 2001:3984:3989::/64
+volumes:
+    ipa-tmp:
+     driver_opts:
+      type: tmpfs
+      device: tmpfs
+    ipa-run:
+     driver_opts:
+      type: tmpfs
+      device: tmpfs
