@@ -1,1 +1,1 @@
-docker-compose  -p lbg -f examples/compose/testscenario.yml up
+docker-compose  -p lbg -f examples/compose/kerb.yml up
