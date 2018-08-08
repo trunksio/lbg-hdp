@@ -18,3 +18,4 @@ docker exec -ti lbg_ambari-server.lbg.dev_1 bash -c 'cp /etc/resolv.conf.bak /et
 docker exec -ti lbg_ambari-server.lbg.dev_1 bash -c 'service  messagebus restart'
 docker exec -ti lbg_ambari-server.lbg.dev_1 bash -c 'service oddjobd restart'
 docker exec -ti lbg_ambari-server.lbg.dev_1 bash -c 'service sssd restart'
+docker exec -ti lbg_ambari-server.lbg.dev_1 bash -c 'ambari-server restart'
