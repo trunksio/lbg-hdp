@@ -1,0 +1,12 @@
+###create hdfs home dir for root user:
+docker exec --user hdfs lbg_master0.lbg.dev_1 bash -c "hadoop fs -mkdir /user/root"
+docker exec --user hdfs lbg_master0.lbg.dev_1 bash -c "hadoop fs -chown root:root /user/root"
+
+###create kafka topic
+docker exec -ti lbg_dn0.lbg.dev_1 bash -c "/usr/hdp/2.6.4.0-91/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic wordcount --replication-factor 3 --partitions 1"
+
+###run spark job:
+docker exec -ti lbg_master0.lbg.dev_1 bash -c "export JAVA_HOME=/usr/jdk64/jdk1.8.0_112/ ; export MASTER=yarn ; /usr/hdp/2.6.4.0-91/spark/bin/run-example  streaming.JavaDirectKafkaWordCount dn0.lbg.dev:6667 wordcount"
+
+###add stuff to kafka:
+docker exec -ti lbg_dn0.lbg.dev_1 bash -c "/usr/hdp/2.6.4.0-91/kafka/bin/kafka-console-producer.sh --broker-list dn0.lbg.dev:6667 --topic wordcount"
