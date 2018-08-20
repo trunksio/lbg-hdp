@@ -8,6 +8,16 @@ services:
     networks:
      dev:
       ipv4_address: 172.18.1.3
+  hwx-sr.lbg.dev:
+    image: registry:443/tom-test-sr:latest
+    hostname: hwx-sr
+    domainname: lbg.dev
+    ports:
+     - "9090"
+    dns: 172.18.1.2
+    networks:
+     dev:
+      ipv4_address: 172.18.1.9
   ambari-server.lbg.dev:
     image: registry:443/ambari-server:test
     hostname: ambari-server
