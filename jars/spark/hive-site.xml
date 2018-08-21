@@ -1,0 +1,6 @@
+<configuration>
+    <property>
+      <name>hive.metastore.uris</name>
+      <value>thrift://master0.lbg.dev:9083</value>
+    </property>
+</configuration>

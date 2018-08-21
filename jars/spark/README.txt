@@ -1,0 +1,2 @@
+export JAVA_HOME=/usr/jdk64/jdk1.8.0_112/
+/usr/hdp/2.6.4.0-91/spark/bin/spark-submit --master yarn --deploy-mode client --driver-cores 1 --jars /usr/hdp/current/spark-client/lib/datanucleus-api-jdo-3.2.6.jar,/usr/hdp/current/spark-client/lib/datanucleus-rdbms-3.2.9.jar,/usr/hdp/current/spark-client/lib/datanucleus-core-3.2.10.jar --files ./application.conf,./hive-site.xml --class com.lloydsbanking.edh.JobRunner ./bd-edh-SparkStreaming-Avro-1.0.50-develop-jar-with-dependencies.jar ./application.conf
