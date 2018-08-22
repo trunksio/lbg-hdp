@@ -68,6 +68,6 @@ docker exec lbg_master0.lbg.dev_1 bash -c 'hive -S -e "create database CDC_TEST"
 docker exec lbg_master0.lbg.dev_1 bash -c '/usr/jdk64/jdk1.8.0_112/bin/java -jar /jars/kafka-writer.jar /jars/kafka.properties CDC_TEST /jars/MOCK_DATA.json'
 
 # run spark job
-export JAVA_HOME=/usr/jdk64/jdk1.8.0_112/
-docker exec lbg_master0.lbg.dev_1 bash -c 'export JAVA_HOME=/usr/jdk64/jdk1.8.0_112/; /usr/hdp/2.6.4.0-91/spark/bin/spark-submit --master yarn --deploy-mode client --driver-cores 1 --jars /usr/hdp/current/spark-client/lib/datanucleus-api-jdo-3.2.6.jar,/usr/hdp/current/spark-client/lib/datanucleus-rdbms-3.2.9.jar,/usr/hdp/current/spark-client/lib/datanucleus-core-3.2.10.jar --files /jars/spark/application.conf,/jars/spark/hive-site.xml --class com.lloydsbanking.edh.JobRunner /jars/spark/bd-edh-SparkStreaming-Avro-1.0.50-develop-jar-with-dependencies.jar ./application.conf'
+docker exec lbg_master0.lbg.dev_1 bash -c 'cp /jars/spark/hive-site.xml  /usr/hdp/current/spark-client/conf/'
+docker exec lbg_master0.lbg.dev_1 bash -c 'export JAVA_HOME=/usr/jdk64/jdk1.8.0_112/; cd /jars/spark; /usr/hdp/2.6.4.0-91/spark/bin/spark-submit --master yarn --deploy-mode client --driver-cores 1 --jars /usr/hdp/current/spark-client/lib/datanucleus-api-jdo-3.2.6.jar,/usr/hdp/current/spark-client/lib/datanucleus-rdbms-3.2.9.jar,/usr/hdp/current/spark-client/lib/datanucleus-core-3.2.10.jar --files ./application.conf,./hive-site.xml --class com.lloydsbanking.edh.JobRunner ./bd-edh-SparkStreaming-Avro-1.0.50-develop-jar-with-dependencies.jar ./application.conf'
 # poll hive 
