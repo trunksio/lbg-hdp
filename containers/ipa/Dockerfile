@@ -1,8 +1,8 @@
+# TODO - Use an LBG base
 # Clone from the CentOS 7
 FROM centos:centos7
 COPY CentOS-Base.repo /etc/yum.repos.d/
 
-MAINTAINER Jan Pazdziora
 # Moving groupadd before freeipa installation to ensure uid and guid will be same
 RUN groupadd -g 288 kdcproxy ; useradd -u 288 -g 288 -c 'IPA KDC Proxy User' -d '/var/lib/kdcproxy' -s '/sbin/nologin' kdcproxy
 RUN groupadd -g 289 ipaapi; useradd -u 289 -g 289 -c 'IPA Framework User' -d / -s '/sbin/nologin' ipaapi
@@ -16,6 +16,8 @@ RUN sed -i 's/ips.append(ipautil.CheckedIPAddress(ha, match_local=True))/ips.app
 # Workaround https://fedorahosted.org/freeipa/ticket/6518
 RUN sed -i 's/getaddrinfo(fqdn/getaddrinfo(fqdn.rstrip(".")/' /usr/lib/python2.7/site-packages/ipaserver/install/installutils.py && python -m compileall /usr/lib/python2.7/site-packages/ipaserver/install/installutils.py
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# hadolint ignore=SC2038
 RUN find /etc/systemd/system/* '!' -name '*.wants' | xargs rm -rvf
 RUN for i in basic.target sysinit.target network.service netconsole.service ; do rm -f /usr/lib/systemd/system/$i && ln -s /dev/null /usr/lib/systemd/system/$i ; done
 # Workaround https://bugzilla.redhat.com/show_bug.cgi?id=1433050
@@ -30,8 +32,8 @@ COPY ipa-server-configure-first ipa-server-status-check exit-with-status ipa-vol
 COPY install.sh uninstall.sh /bin/
 RUN mv /bin/hostnamectl /bin/hostnamectl.orig
 RUN mv /usr/bin/domainname /usr/bin/domainname.orig
-ADD hostnamectl-wrapper /bin/hostnamectl
-ADD hostnamectl-wrapper /usr/bin/domainname
+COPY hostnamectl-wrapper /bin/hostnamectl
+COPY hostnamectl-wrapper /usr/bin/domainname
 RUN chmod -v +x /usr/local/sbin/init /usr/sbin/ipa-server-configure-first /usr/sbin/ipa-server-status-check /usr/sbin/exit-with-status /usr/sbin/ipa-volume-upgrade-* /bin/install.sh /bin/uninstall.sh /bin/hostnamectl /usr/bin/domainname
 COPY container-ipa.target ipa-server-configure-first.service ipa-server-upgrade.service ipa-server-update-self-ip-address.service /usr/lib/systemd/system/
 RUN rmdir -v /etc/systemd/system/multi-user.target.wants \
@@ -45,7 +47,8 @@ COPY exit-via-chroot.conf /usr/lib/systemd/system/systemd-poweroff.service.d/
 
 COPY atomic-install-help /usr/share/ipa/
 COPY volume-data-list volume-data-mv-list volume-data-autoupdate /etc/
-RUN set -e ; cd / ; mkdir /data-template ; cat /etc/volume-data-list | while read i ; do echo $i ; if [ -e $i ] ; then tar cf - .$i | ( cd /data-template && tar xf - ) ; else mkdir -p /data-template$( dirname $i ) ; fi ; mkdir -p $( dirname $i ) ; if [ "$i" == /var/log/ ] ; then mv /var/log /var/log-removed ; else rm -rf $i ; fi ; ln -sf /data${i%/} ${i%/} ; done
+# hadolint ignore=DL3003,SC2002,SC2086
+RUN set -e ; cd / ; mkdir /data-template ; cat /etc/volume-data-list | while read -r i ; do echo "$i" ; if [ -e "$i" ] ; then tar cf - ".$i" | ( cd /data-template && tar xf - ) ; else mkdir -p "/data-template$( dirname $i )" ; fi ; mkdir -p "$( dirname $i )" ; if [ "$i" == /var/log/ ] ; then mv /var/log /var/log-removed ; else rm -rf "$i" ; fi ; ln -sf "/data${i%/}" "${i%/}" ; done
 RUN rm -rf /var/log-removed
 RUN sed -i 's!^d /var/log.*!L /var/log - - - - /data/var/log!' /usr/lib/tmpfiles.d/var.conf
 RUN rm -f /data-template/var/lib/systemd/random-seed
@@ -60,7 +63,7 @@ STOPSIGNAL RTMIN+3
 #COPY entrypoint.sh /
 RUN mkdir /data
 COPY ipa-server-install-options /data
-ENTRYPOINT [ "/usr/local/sbin/init" ] 
+ENTRYPOINT ["/usr/local/sbin/init"] 
 RUN uuidgen > /data-template/build-id
 
 # Invocation:
